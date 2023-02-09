@@ -9,6 +9,8 @@ import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import React from 'react';
+import { PageLoading } from '@ant-design/pro-components';
+
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
@@ -97,7 +99,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
     childrenRender: (children) => {
-      // if (initialState?.loading) return <PageLoading />;
+      if (initialState?.loading) return <PageLoading />;
       return (
         <>
           {children}
