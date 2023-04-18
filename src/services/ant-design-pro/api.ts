@@ -6,7 +6,7 @@ import { request } from '@umijs/max';
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('/api/currentUser', {
+  }>('/api/v1/user/info', {
     method: 'GET',
     ...(options || {}),
   });
@@ -22,12 +22,28 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+  return request<API.LoginResult>('/api/v1/passport/auth/login', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** 登录接口 POST /api/v1/passport/auth/login */
+export async function loginNextGen(body: API.LoginParams, options?: { [key: string]: any }) {
+  return request<API.LoginResult>('/api/v1/passport/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    params: {
+      email: body.username,
+      password: body.password,
+    },
+    // data: body,
     ...(options || {}),
   });
 }

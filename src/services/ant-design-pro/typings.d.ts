@@ -5,6 +5,21 @@ declare namespace API {
   type CurrentUser = {
     name?: string;
     avatar?: string;
+    avatar_url?: string;
+    balance?: number;
+    banned?: number;
+    commission_balance: number;
+    commission_rate?: number;
+    created_at?: number;
+    discount?: number;
+    expired_at?: number;
+    last_login_at?: number;
+    plan_id?: number;
+    remind_expire?: number;
+    remind_traffic?: number;
+    telegram_id?: number;
+    transfer_enable?: number;
+    uuid?: string;
     userid?: string;
     email?: string;
     signature?: string;
@@ -27,6 +42,10 @@ declare namespace API {
     status?: string;
     type?: string;
     currentAuthority?: string;
+    auth_data: string;
+    is_admin: number;
+    token: string;
+    data: any;
   };
 
   type PageParams = {

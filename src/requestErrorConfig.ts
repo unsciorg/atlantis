@@ -1,5 +1,4 @@
-﻿import type { RequestOptions } from '@@/plugin-request/request';
-import type { RequestConfig } from '@umijs/max';
+﻿import type { RequestConfig } from '@umijs/max';
 import { message, notification } from 'antd';
 
 // 错误处理方案： 错误类型
@@ -10,6 +9,8 @@ enum ErrorShowType {
   NOTIFICATION = 3,
   REDIRECT = 9,
 }
+
+// 错误处理方案： 错误类型
 // 与后端约定的响应数据格式
 interface ResponseStructure {
   success: boolean;
@@ -70,9 +71,43 @@ export const errorConfig: RequestConfig = {
           }
         }
       } else if (error.response) {
+        switch (error.response.status) {
+          case 401:
+            // TODO: 401
+            break;
+          case 403:
+            // TODO: 403
+            break;
+          case 404:
+            // TODO: 404
+            break;
+          case 422:
+            // TODO: 422
+            if (error.response.data.errors) {
+              if (error.response.data.errors.email) {
+                message.error(error.response.data.errors.email[0]);
+              }
+              if (error.response.data.errors.password) {
+                message.error(error.response.data.errors.password[0]);
+              }
+            }
+            break;
+          case 500:
+            // TODO: 500
+            if (error.response.data.message) {
+              message.error(error.response.data.message);
+            }
+            break;
+          case 503:
+            // TODO: 503
+            break;
+          default:
+            // TODO: 其他错误
+            break;
+        }
         // Axios 的错误
         // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
-        message.error(`Response status:${error.response.status}`);
+        // message.error(`Response status:${error.response.status}`);
       } else if (error.request) {
         // 请求已经成功发起，但没有收到响应
         // \`error.request\` 在浏览器中是 XMLHttpRequest 的实例，
@@ -87,10 +122,18 @@ export const errorConfig: RequestConfig = {
 
   // 请求拦截器
   requestInterceptors: [
-    (config: RequestOptions) => {
-      // 拦截请求配置，进行个性化处理。
-      const url = config?.url?.concat('?token = 123');
-      return { ...config, url };
+    // (config: RequestOptions) => {
+    //   // 拦截请求配置，进行个性化处理。
+
+    //   const url = config?.url?.concat('');
+    //   return { ...config, url };
+    // },
+    (url: string, options: RequestConfig) => {
+      const authToken = { authorization: localStorage.getItem('X-Auth-Token') };
+      return {
+        url: `${url}`,
+        options: { ...options, interceptors: true, headers: authToken },
+      };
     },
   ],
 
@@ -102,6 +145,7 @@ export const errorConfig: RequestConfig = {
 
       if (data?.success === false) {
         message.error('请求失败！');
+        console.log();
       }
       return response;
     },

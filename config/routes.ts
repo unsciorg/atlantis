@@ -12,6 +12,12 @@
  */
 export default [
   {
+    name: 'dashboard',
+    path: '/dashboard',
+    icon: 'DashboardOutlined',
+    component: './Dashboard',
+  },
+  {
     path: '/user',
     layout: false,
     routes: [
@@ -19,12 +25,6 @@ export default [
         name: 'login',
         path: '/user/login',
         component: './User/Login',
-      },
-      {
-        // 访问路由，以 / 开头为绝对路径
-        path: '/user/new',
-        // ./Page ->src/pages/Login
-        component: './NewPage',
       },
     ],
   },
@@ -47,7 +47,7 @@ export default [
         icon: 'crown',
         access: 'canAdmin',
         // ./Page ->src/pages/Login
-        component: './NewPage',
+        component: '',
       },
     ],
   },
@@ -60,11 +60,6 @@ export default [
       {
         path: '/admin',
         redirect: '/admin/sub-page',
-      },
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
       },
     ],
   },
