@@ -1,16 +1,11 @@
 import { request } from '@umijs/max';
 
-export async function fetchAnouncement(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/v1/passport/auth/login', {
-    method: 'POST',
+// 获取首页轮播数据
+export async function fetchAnouncement() {
+  return request<DashboardAPI.Announcement>('/api/v1/user/notice/fetch', {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    params: {
-      email: body.username,
-      password: body.password,
-    },
-    // data: body,
-    ...(options || {}),
   });
 }
