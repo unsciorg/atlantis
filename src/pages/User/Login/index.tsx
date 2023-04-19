@@ -126,16 +126,20 @@ const Login: React.FC = () => {
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error: any) {
-      // const defaultLoginFailureMessage = intl.formatMessage({
-      //   id: 'pages.login.failure',
-      //   defaultMessage: '登录失败，请重试！',
-      // });
-      // console.info(error);
-      // if (error.response.data.message ){
-      //   message.error(error.response.data.message);
-      // } else{
-      //   message.error(defaultLoginFailureMessage);
-      // }
+      const defaultLoginFailureMessage = intl.formatMessage({
+        id: 'pages.login.failure',
+        defaultMessage: '登录失败，请重试！',
+      });
+      if (error.response.data.errors) {
+        if (error.response.data.errors.email) {
+          message.error(error.response.data.errors.email[0]);
+        }
+        if (error.response.data.errors.password) {
+          message.error(error.response.data.errors.password[0]);
+        }
+      } else {
+        message.error(defaultLoginFailureMessage);
+      }
     }
   };
   // const { status, type: loginType } = userLoginState;

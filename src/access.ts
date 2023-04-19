@@ -5,10 +5,10 @@ export default function access(initialState: { currentUser?: API.CurrentUser } |
   const { currentUser } = initialState ?? {};
   if (currentUser) {
     const user = currentUser;
-    console.log(user);
+    console.info(user);
   } else {
     const user = {};
-    console.log(user);
+    console.info(user);
   }
 
   return {

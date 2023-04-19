@@ -4,23 +4,49 @@ import { Card, Carousel, Skeleton, Switch, theme } from 'antd';
 import React, { useState } from 'react';
 
 const contentStyle: React.CSSProperties = {
-  height: '160px',
+  height: '250px',
   color: '#fff',
-  lineHeight: '160px',
+  lineHeight: '250px',
   textAlign: 'center',
   background: '#364d79',
+};
+
+const carouselStyle: React.CSSProperties = {
+  width: '100%',
+  height: '100%',
 };
 
 const Dashboard: React.FC = () => {
   const { token } = theme.useToken();
   const { initialState } = useModel('@@initialState');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const toggle = (checked: boolean) => {
     setLoading(checked);
   };
+
   return (
     <PageContainer>
+      <Skeleton active loading={loading} paragraph={{ rows: 5 }} key={''}>
+        <Carousel autoplay style={carouselStyle}>
+          <div>
+            <h3 style={contentStyle}>1</h3>
+          </div>
+          <div>
+            <h3 style={contentStyle}>2</h3>
+          </div>
+          <div>
+            <h3 style={contentStyle}>3</h3>
+          </div>
+          <div>
+            <h3 style={contentStyle}>4</h3>
+          </div>
+        </Carousel>
+      </Skeleton>
+      <div style={{ marginTop: 16 }}>
+        Loading state：
+        <Switch checked={loading} onChange={toggle} />
+      </div>
       <Card
         style={{
           borderRadius: 8,
@@ -71,31 +97,8 @@ const Dashboard: React.FC = () => {
           ></div>
         </div>
       </Card>
-
-      <Skeleton active loading={loading} paragraph={{ rows: 5 }}>
-        <Carousel autoplay>
-          <div>
-            <h3 style={contentStyle}>1</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>2</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>3</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>4</h3>
-          </div>
-        </Carousel>
-      </Skeleton>
-      <div style={{ marginTop: 16 }}>
-        Loading state：
-        <Switch checked={loading} onChange={toggle} />
-      </div>
     </PageContainer>
   );
 };
 
 export default Dashboard;
-
-console.log(Dashboard);

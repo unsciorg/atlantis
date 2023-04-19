@@ -1,4 +1,3 @@
-import { outLogin } from '@/services/ant-design-pro/api';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { setAlpha } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
@@ -20,7 +19,7 @@ const Name = () => {
 
   const nameClassName = useEmotionCss(({ token }) => {
     return {
-      width: '70px',
+      width: 'auto',
       height: '48px',
       overflow: 'hidden',
       lineHeight: '48px',
@@ -61,7 +60,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
    * 退出登录，并且将当前的 url 保存
    */
   const loginOut = async () => {
-    await outLogin();
+    // await outLogin();
+    localStorage.removeItem('X-Auth-Token');
     const { search, pathname } = window.location;
     const urlParams = new URL(window.location.href).searchParams;
     /** 此方法会跳转到 redirect 参数所在的位置 */
@@ -85,6 +85,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       alignItems: 'center',
       padding: '0 8px',
       cursor: 'pointer',
+      width: 'auto',
       borderRadius: token.borderRadius,
       '&:hover': {
         backgroundColor: token.colorBgTextHover,
@@ -126,7 +127,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
 
   const { currentUser } = initialState;
 
-  if (!currentUser || !currentUser.name) {
+  if (!currentUser || !currentUser.email) {
     return loading;
   }
 

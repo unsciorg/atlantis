@@ -72,35 +72,11 @@ export const errorConfig: RequestConfig = {
         }
       } else if (error.response) {
         switch (error.response.status) {
-          case 401:
-            // TODO: 401
-            break;
-          case 403:
-            // TODO: 403
-            break;
-          case 404:
-            // TODO: 404
-            break;
-          case 422:
-            // TODO: 422
-            if (error.response.data.errors) {
-              if (error.response.data.errors.email) {
-                message.error(error.response.data.errors.email[0]);
-              }
-              if (error.response.data.errors.password) {
-                message.error(error.response.data.errors.password[0]);
-              }
-            }
-            break;
           case 500:
             // TODO: 500
             if (error.response.data.message) {
               message.error(error.response.data.message);
             }
-            break;
-          case 503:
-            // TODO: 503
-            break;
           default:
             // TODO: 其他错误
             break;
