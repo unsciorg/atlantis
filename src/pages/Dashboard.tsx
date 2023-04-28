@@ -1,7 +1,9 @@
+import { fetchAnouncement } from '@/services/dashboard/api';
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
-import { Card, Carousel, Skeleton, Switch, theme } from 'antd';
-import React, { useState } from 'react';
+import { Button, Card, Carousel, List, Progress, Skeleton, theme } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { FormattedMessage } from 'umi';
 
 const contentStyle: React.CSSProperties = {
   height: '250px',
@@ -19,37 +21,36 @@ const carouselStyle: React.CSSProperties = {
 const Dashboard: React.FC = () => {
   const { token } = theme.useToken();
   const { initialState } = useModel('@@initialState');
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
+  const [items, setItems] = useState<DashboardAPI.Announcement[]>([]);
 
-  const toggle = (checked: boolean) => {
-    setLoading(checked);
-  };
+  useEffect(() => {
+    const fetchAnouncementData = async () => {
+      const res = await fetchAnouncement();
+      setItems(res.data);
+      setLoading(false);
+    };
+    fetchAnouncementData();
+  }, []);
+
+  const carouselItems = items.map((item) => (
+    <div key={item.id}>
+      <h3 style={contentStyle}>{item.title}</h3>
+    </div>
+  ));
 
   return (
     <PageContainer>
-      <Skeleton active loading={loading} paragraph={{ rows: 5 }} key={''}>
+      <Skeleton active loading={isLoading} paragraph={{ rows: 5 }} key={''}>
         <Carousel autoplay style={carouselStyle}>
-          <div>
-            <h3 style={contentStyle}>1</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>2</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>3</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>4</h3>
-          </div>
+          {carouselItems}
         </Carousel>
       </Skeleton>
-      <div style={{ marginTop: 16 }}>
-        Loading state：
-        <Switch checked={loading} onChange={toggle} />
-      </div>
       <Card
         style={{
           borderRadius: 8,
+          marginBottom: 10,
+          marginTop: 10,
         }}
         bodyStyle={{
           backgroundImage:
@@ -57,6 +58,8 @@ const Dashboard: React.FC = () => {
               ? 'background-image: linear-gradient(75deg, #1A1B1F 0%, #191C1F 100%)'
               : 'background-image: linear-gradient(75deg, #FBFDFF 0%, #F5F7FF 100%)',
         }}
+        title={<FormattedMessage id="pages.dashboard.title" />}
+        // type='inner'
       >
         <div
           style={{
@@ -73,29 +76,91 @@ const Dashboard: React.FC = () => {
               color: token.colorTextHeading,
             }}
           >
-            欢迎使用 Ant Design Pro
+            套餐1
           </div>
-          <p
+          <div
             style={{
               fontSize: '14px',
               color: token.colorTextSecondary,
               lineHeight: '22px',
-              marginTop: 16,
-              marginBottom: 32,
+              marginTop: 10,
+              marginBottom: 10,
               width: '65%',
             }}
           >
-            Ant Design Pro 是一个整合了 umi，Ant Design 和 ProComponents
-            的脚手架方案。致力于在设计规范和基础组件的基础上，继续向上构建，提炼出典型模板/业务组件/配套设计资源，进一步提升企业级中后台产品设计研发过程中的『用户』和『设计者』的体验。
-          </p>
+            <FormattedMessage id="pages.dashboard.subscribe.description" />
+          </div>
           <div
             style={{
               display: 'flex',
               flexWrap: 'wrap',
               gap: 16,
+              marginTop: 10,
+              marginBottom: 10,
+              width: '65%',
             }}
-          ></div>
+          >
+            <Progress
+              showInfo={false}
+              percent={18.9}
+              strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
+            />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 16,
+              marginTop: 10,
+              marginBottom: 10,
+              width: '65%',
+            }}
+          >
+            <FormattedMessage id="pages.dashboard.subscribe.used" />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 16,
+              marginTop: 10,
+              marginBottom: 10,
+            }}
+          >
+            <Button type="primary">
+              <FormattedMessage id={'pages.dashboard.subscribe.resetBtn'} />
+            </Button>
+          </div>
         </div>
+      </Card>
+
+      {/* 捷径 */}
+      <Card
+        style={{
+          borderRadius: 8,
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+        bodyStyle={{
+          backgroundImage:
+            initialState?.settings?.navTheme === 'realDark'
+              ? 'background-image: linear-gradient(75deg, #1A1B1F 0%, #191C1F 100%)'
+              : 'background-image: linear-gradient(75deg, #FBFDFF 0%, #F5F7FF 100%)',
+        }}
+        title={<FormattedMessage id="pages.dashboard.shortcut.title" />}
+        // type='inner'
+      >
+        {/* <Card.Grid style={gridStyle}>
+          ItemContent
+        </Card.Grid> */}
+        <List itemLayout="horizontal" size="large">
+          <List.Item>
+            <List.Item.Meta
+              title={<a href="https://ant.design">{'1223123123'}</a>}
+              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+            />
+          </List.Item>
+        </List>
       </Card>
     </PageContainer>
   );

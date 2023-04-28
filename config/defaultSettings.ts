@@ -9,6 +9,7 @@ const Settings: ProLayoutProps & {
 } = {
   navTheme: 'light',
   // 拂晓蓝
+
   colorPrimary: '#1890ff',
   layout: 'mix',
   contentWidth: 'Fluid',
@@ -16,6 +17,7 @@ const Settings: ProLayoutProps & {
   fixSiderbar: true,
   colorWeak: false,
   title: '亚特兰蒂斯',
+  splitMenus: false,
   pwa: true,
   logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
   iconfontUrl: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',

@@ -41,4 +41,11 @@ export default {
       pathRewrite: { '^': '' },
     },
   },
+  prod: {
+    '/api/': {
+      target: 'your pre url',
+      changeOrigin: true,
+      pathRewrite: { '^': '' },
+    },
+  },
 };

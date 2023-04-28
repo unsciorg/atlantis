@@ -18,4 +18,12 @@ declare namespace DashboardAPI {
     created_at: number;
     updated_at: number;
   };
+
+  /**
+   * 获取仪表盘数据返回集合
+   */
+  type AnnouncementResponse = {
+    data: Announcement[];
+    total: number;
+  };
 }
